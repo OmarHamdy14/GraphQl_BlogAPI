@@ -1,5 +1,8 @@
+using GraphQl_BlogAPI.Graphql_DataLoaders;
+using GraphQl_BlogAPI.Graphql_Types;
 using GraphQl_BlogAPI.Models;
 using Microsoft.EntityFrameworkCore;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace GraphQl_BlogAPI
 {
@@ -13,8 +16,13 @@ namespace GraphQl_BlogAPI
 
             builder.Services.AddDbContext<AppDbContext>(op => op.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
 
-            builder.Services.AddGraphQLServer();
-            
+            builder.Services.AddGraphQLServer()
+                            .AddType<UserType>()
+                            .AddType<PostType>()
+                            .AddFiltering()
+                            .AddSorting()
+                            .AddDataLoader<PostsByUserIdDataLoader>();
+
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
@@ -22,13 +30,14 @@ namespace GraphQl_BlogAPI
 
             var app = builder.Build();
 
+            app.MapGraphQL("/graphql");
+
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
             app.UseHttpsRedirection();
 
             app.UseAuthorization();

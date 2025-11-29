@@ -1,4 +1,5 @@
-﻿using GraphQl_BlogAPI.Models;
+﻿using GraphQl_BlogAPI.Graphql_DataLoaders;
+using GraphQl_BlogAPI.Models;
 
 namespace GraphQl_BlogAPI.Graphql_Types
 {
@@ -10,7 +11,7 @@ namespace GraphQl_BlogAPI.Graphql_Types
             descriptor.Field(u => u.Name);
             descriptor.Field(u => u.Email);
 
-            descriptor.Field("Posts").ResolveWith<Resolvers>(r => r.GetPostsAsync(default!, default!, default));
+            descriptor.Field("Posts").ResolveWith<Resolvers>(r => r.GetPostsAsync(default!, default!, default)).UseSorting().UseFiltering(); ;
         }
 
         private class Resolvers

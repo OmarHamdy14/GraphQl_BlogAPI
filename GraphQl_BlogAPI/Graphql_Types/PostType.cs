@@ -11,7 +11,8 @@ namespace GraphQl_BlogAPI.Graphql_Types
             descriptor.Field(p => p.Content);
             descriptor.Field(p => p.UserId);
 
-            descriptor.Field(p => p.User).ResolveWith<Resolvers>(r => r.GetUserAsync(default!, default!, default));
+            descriptor.Field(p => p.User).ResolveWith<Resolvers>(r => r.GetUserAsync(default!, default!, default))
+                .UseSorting().UseFiltering();
 
         }
         private class Resolvers
