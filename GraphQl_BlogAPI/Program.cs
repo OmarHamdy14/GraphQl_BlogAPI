@@ -1,3 +1,6 @@
+using GraphQl_BlogAPI.Models;
+using Microsoft.EntityFrameworkCore;
+
 namespace GraphQl_BlogAPI
 {
     public class Program
@@ -8,9 +11,9 @@ namespace GraphQl_BlogAPI
 
             // Add services to the container.
 
+            builder.Services.AddDbContext<AppDbContext>(op => op.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
 
-            builder.Services
-                .AddGraphQLServer();
+            builder.Services.AddGraphQLServer();
             
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
