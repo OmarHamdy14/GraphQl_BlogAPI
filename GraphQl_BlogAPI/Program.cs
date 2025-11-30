@@ -1,3 +1,4 @@
+using GraphQl_BlogAPI.Graphql_Commands;
 using GraphQl_BlogAPI.Graphql_DataLoaders;
 using GraphQl_BlogAPI.Graphql_Types;
 using GraphQl_BlogAPI.Models;
@@ -19,6 +20,8 @@ namespace GraphQl_BlogAPI
             builder.Services.AddGraphQLServer()
                             .AddType<UserType>()
                             .AddType<PostType>()
+                            .AddQueryType<Graphql_Commands.Query>()
+                            .AddMutationType<Mutation>()
                             .AddFiltering()
                             .AddSorting()
                             .AddDataLoader<PostsByUserIdDataLoader>();
