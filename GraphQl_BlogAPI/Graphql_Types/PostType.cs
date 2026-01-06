@@ -1,4 +1,5 @@
-﻿using GraphQl_BlogAPI.Models;
+﻿using GraphQl_BlogAPI.Graphql_DataLoaders;
+using GraphQl_BlogAPI.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace GraphQl_BlogAPI.Graphql_Types
@@ -13,6 +14,9 @@ namespace GraphQl_BlogAPI.Graphql_Types
 
             descriptor.Field(p => p.User).ResolveWith<Resolvers>(r => r.GetUserAsync(default!, default!, default))
                 .UseSorting().UseFiltering();
+            
+            descriptor.Field("Comments").ResolveWith<Resolvers>(r => r.GetCommentsAsync(default!, default!, default))
+                .UseSorting().UseFiltering();
 
         }
         private class Resolvers
@@ -22,6 +26,9 @@ namespace GraphQl_BlogAPI.Graphql_Types
                 await using var db = dbFactory.CreateDbContext();
                 return await db.Users.FindAsync(new object[] { post.UserId }, ct);
             }
+            public async Task<IEnumerable<Comment>> GetCommentsAsync([Parent] Post post, CommentsByPostIdDataLoader dataLoader, CancellationToken ct)
+                            => await dataLoader.LoadAsync(post.Id, ct);
+
         }
     }
 }
