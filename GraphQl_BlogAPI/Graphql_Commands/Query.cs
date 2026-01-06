@@ -15,5 +15,10 @@ namespace GraphQl_BlogAPI.Graphql_Commands
             await using var db = dbFactory.CreateDbContext();
             return db.Posts;
         }
+        public async Task<IEnumerable<Comment>> GetComments([Service] IDbContextFactory<AppDbContext> dbFactory)
+        {
+            await using var db = dbFactory.CreateDbContext();
+            return db.Comments;
+        }
     }
 }

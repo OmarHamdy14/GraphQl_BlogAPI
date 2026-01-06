@@ -17,8 +17,7 @@ namespace GraphQl_BlogAPI.Graphql_Types
         }
         private class Resolvers
         {
-            public async Task<User?> GetUserAsync([Parent] Post post, [Service] IDbContextFactory<AppDbContext> dbFactory,
-                CancellationToken ct)
+            public async Task<User?> GetUserAsync([Parent] Post post, [Service] IDbContextFactory<AppDbContext> dbFactory,CancellationToken ct)
             {
                 await using var db = dbFactory.CreateDbContext();
                 return await db.Users.FindAsync(new object[] { post.UserId }, ct);

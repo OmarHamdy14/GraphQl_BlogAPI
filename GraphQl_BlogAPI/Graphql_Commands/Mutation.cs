@@ -25,5 +25,16 @@ namespace GraphQl_BlogAPI.Graphql_Commands
             await db.SaveChangesAsync();
             return post;
         }
+        public async Task<Comment> CreateCommentt(Guid userId, string content, int PostId, [Service] IDbContextFactory<AppDbContext> dbFactory)
+        {
+            var comment = new Comment { UserId = userId, Content = content, PostId=PostId };
+
+
+            await using var db = dbFactory.CreateDbContext();
+            db.Comments.Add(comment);
+            await db.SaveChangesAsync();
+            return comment;
+        }
+
     }
 }

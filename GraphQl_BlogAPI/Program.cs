@@ -20,11 +20,13 @@ namespace GraphQl_BlogAPI
             builder.Services.AddGraphQLServer()
                             .AddType<UserType>()
                             .AddType<PostType>()
+                            .AddType<CommentType>()
                             .AddQueryType<Graphql_Commands.Query>()
                             .AddMutationType<Mutation>()
                             .AddFiltering()
                             .AddSorting()
-                            .AddDataLoader<PostsByUserIdDataLoader>();
+                            .AddDataLoader<PostsByUserIdDataLoader>()
+                            .AddDataLoader<CommentsByUserIdDataLoader>();
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

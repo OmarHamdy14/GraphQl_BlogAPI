@@ -11,13 +11,16 @@ namespace GraphQl_BlogAPI.Graphql_Types
             descriptor.Field(u => u.Name);
             descriptor.Field(u => u.Email);
 
-            descriptor.Field("Posts").ResolveWith<Resolvers>(r => r.GetPostsAsync(default!, default!, default)).UseSorting().UseFiltering(); ;
+            descriptor.Field("Posts").ResolveWith<Resolvers>(r => r.GetPostsAsync(default!, default!, default)).UseSorting().UseFiltering();
+            descriptor.Field("Comments").ResolveWith<Resolvers>(r => r)
         }
 
         private class Resolvers
         {
-            public Task<IEnumerable<Post>> GetPostsAsync([Parent] User user, PostsByUserIdDataLoader dataLoader,CancellationToken ct)
-                        => dataLoader.LoadAsync(user.Id, ct);
-        }
+            public async Task<IEnumerable<Post>> GetPostsAsync([Parent] User user, PostsByUserIdDataLoader dataLoader,CancellationToken ct)
+                        => await dataLoader.LoadAsync(user.Id, ct);
+
+            public async Task<IEnumerable<Comment>> GetCommnetsAsync([Parent] User user, CommentsByUserIdDataLoader dataLoader, CancellationToken ct)
+                => dataLoader.LoadAsync(user.Id, ct);
     }
 }
