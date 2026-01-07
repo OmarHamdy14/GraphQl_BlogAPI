@@ -1,4 +1,6 @@
-﻿using GraphQl_BlogAPI.Models;
+﻿using GraphQl_BlogAPI.Eunms;
+using GraphQl_BlogAPI.Graphql_Types;
+using GraphQl_BlogAPI.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace GraphQl_BlogAPI.Graphql_Commands
@@ -25,7 +27,7 @@ namespace GraphQl_BlogAPI.Graphql_Commands
             await db.SaveChangesAsync();
             return post;
         }
-        public async Task<Comment> CreateCommentt(Guid userId, string content, int PostId, [Service] IDbContextFactory<AppDbContext> dbFactory)
+        public async Task<Comment> CreateComment(Guid userId, string content, int PostId, [Service] IDbContextFactory<AppDbContext> dbFactory)
         {
             var comment = new Comment { UserId = userId, Content = content, PostId=PostId };
 
@@ -34,6 +36,16 @@ namespace GraphQl_BlogAPI.Graphql_Commands
             db.Comments.Add(comment);
             await db.SaveChangesAsync();
             return comment;
+        }
+        public async Task<Reaction> CreateReaction(Guid userId, ReactionKind type, int PostId, [Service] IDbContextFactory<AppDbContext> dbFactory)
+        {
+            var react = new Reaction { UserId = userId, Type = type, PostId=PostId };
+
+
+            await using var db = dbFactory.CreateDbContext();
+            db.Reactions.Add(react);
+            await db.SaveChangesAsync();
+            return react;
         }
 
     }
