@@ -18,9 +18,7 @@ namespace GraphQl_BlogAPI.Graphql_DataLoaders
                 .Where(c => keys.Contains(c.PostId))
                 .ToListAsync(cancellationToken);
 
-            return comments
-                .GroupBy(c => c.PostId)
-                .ToDictionary(g => g.Key, g => g.AsEnumerable());
+            return comments.GroupBy(c => c.PostId).ToDictionary(g => g.Key, g => g.AsEnumerable());
         }
     }
 }
