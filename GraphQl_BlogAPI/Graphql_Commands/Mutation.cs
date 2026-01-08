@@ -11,7 +11,6 @@ namespace GraphQl_BlogAPI.Graphql_Commands
         {
             var user = new User { Name = name, Email = email };
 
-
             await using var db = dbFactory.CreateDbContext();
             db.Users.Add(user);
             await db.SaveChangesAsync();
@@ -20,7 +19,6 @@ namespace GraphQl_BlogAPI.Graphql_Commands
         public async Task<Post> CreatePost(Guid userId, string content, [Service] IDbContextFactory<AppDbContext> dbFactory)
         {
             var post = new Post { UserId = userId, Content = content };
-
 
             await using var db = dbFactory.CreateDbContext();
             db.Posts.Add(post);
@@ -31,7 +29,6 @@ namespace GraphQl_BlogAPI.Graphql_Commands
         {
             var comment = new Comment { UserId = userId, Content = content, PostId=PostId };
 
-
             await using var db = dbFactory.CreateDbContext();
             db.Comments.Add(comment);
             await db.SaveChangesAsync();
@@ -40,7 +37,6 @@ namespace GraphQl_BlogAPI.Graphql_Commands
         public async Task<Reaction> CreateReaction(Guid userId, ReactionKind type, int PostId, [Service] IDbContextFactory<AppDbContext> dbFactory)
         {
             var react = new Reaction { UserId = userId, Type = type, PostId=PostId };
-
 
             await using var db = dbFactory.CreateDbContext();
             db.Reactions.Add(react);

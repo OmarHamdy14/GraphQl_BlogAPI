@@ -27,7 +27,9 @@ namespace GraphQl_BlogAPI
                             .AddSorting()
                             .AddDataLoader<PostsByUserIdDataLoader>()
                             .AddDataLoader<CommentsByUserIdDataLoader>()
-                            .AddDataLoader<CommentsByPostIdDataLoader>();
+                            .AddDataLoader<CommentsByPostIdDataLoader>()
+                            .AddDataLoader<ReactionsByUserIdDataLoader>()
+                            .AddDataLoader<ReactionsByPostIdDataLoader>();
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

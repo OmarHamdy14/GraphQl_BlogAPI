@@ -18,6 +18,8 @@ namespace GraphQl_BlogAPI.Graphql_Types
             descriptor.Field("Comments").ResolveWith<Resolvers>(r => r.GetCommentsAsync(default!, default!, default))
                 .UseSorting().UseFiltering();
 
+            descriptor.Field("Rections").ResolveWith<Resolvers>(r => r.GetReactionsAsync(default!, default!, default)).UseSorting().UseFiltering();
+
         }
         private class Resolvers
         {
@@ -28,6 +30,9 @@ namespace GraphQl_BlogAPI.Graphql_Types
             }
             public async Task<IEnumerable<Comment>> GetCommentsAsync([Parent] Post post, CommentsByPostIdDataLoader dataLoader, CancellationToken ct)
                             => await dataLoader.LoadAsync(post.Id, ct);
+
+            public async Task<IEnumerable<Reaction>> GetReactionsAsync([Parent] Post post, ReactionsByPostIdDataLoader dataLoader,CancellationToken ct)
+                            => await dataLoader.LoadAsync(post.Id,ct);
 
         }
     }
